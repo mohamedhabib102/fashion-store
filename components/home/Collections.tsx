@@ -20,7 +20,7 @@ const Collections: React.FC = () => {
     const cat = category ? category : "all";
     const getProducts = async () => {
         setLoading(true);
-        const res = await axiosInstance.get(`api/products/category/${cat}`);
+        const res = await axiosInstance.get(`api/products?category=${cat}`);
         const data = await res.data;
         setProducts(data);
         setLoading(false);

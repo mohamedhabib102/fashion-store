@@ -38,7 +38,7 @@ const Products: React.FC = () => {
     const [minPrice, setMinPrice] = useState<number>(0);
     const cat = category ? category : "all";
     const getProducts = async () => {
-        const res = await axiosInstance.get(`api/products/category/${cat}`);
+        const res = await axiosInstance.get(`api/products?category=${cat}`);
         const data = await res.data;
         console.log(data);
         setProducts(data);
@@ -59,7 +59,7 @@ const Products: React.FC = () => {
 
     const filterProducts = products.filter((p) => {
         const matchesSize = selectedSize ?
-        p.sizes.includes(selectedSize) : true
+            p.sizes.includes(selectedSize) : true
 
         let availability = true
 
@@ -70,7 +70,7 @@ const Products: React.FC = () => {
         }
         const matchesCategory = cat === "all" || p.category === cat
         const matchesColor = color ? p.colors.includes(color) : true
-        const matchesPrice = p.price >= minPrice && p.price <= maxPrice 
+        const matchesPrice = p.price >= minPrice && p.price <= maxPrice
 
         return matchesSize && availability && matchesCategory && matchesColor && matchesPrice
     })
@@ -84,15 +84,15 @@ const Products: React.FC = () => {
                             <div>
                                 <h2 className="text-2xl font-bold uppercase tracking-tight mb-8">Filters</h2>
 
-                                <span 
-                                onClick={() => {
-                                    setSelectedSize(null)
-                                    setShowInStock(false)
-                                    setShowOutOfStock(false)
-                                    setCategory("all")
-                                    setColor("")
-                                }}
-                                className="block text-sm font-bold uppercase mb-4 tracking-wider cursor-pointer">Reset Filters</span>
+                                <span
+                                    onClick={() => {
+                                        setSelectedSize(null)
+                                        setShowInStock(false)
+                                        setShowOutOfStock(false)
+                                        setCategory("all")
+                                        setColor("")
+                                    }}
+                                    className="block text-sm font-bold uppercase mb-4 tracking-wider cursor-pointer">Reset Filters</span>
 
                                 <div className="space-y-6">
                                     {/* Size Filter */}
@@ -142,14 +142,14 @@ const Products: React.FC = () => {
                                     <AccordionItem title="Category">
                                         <div className="space-y-2 pt-2">
                                             {categories.map((c) => (
-                                                <label key={c.id} 
-                                                onClick={() => setCategory(c.name)}
-                                                className="flex items-center gap-3 cursor-pointer group">
-                                                    <input 
-                                                    type="checkbox" 
-                                                    checked={category === c.name}
-                                                    onChange={() => setCategory(c.name)}
-                                                    className="w-4 h-4 border-gray-300 rounded-sm focus:ring-0 checked:bg-black" />
+                                                <label key={c.id}
+                                                    onClick={() => setCategory(c.name)}
+                                                    className="flex items-center gap-3 cursor-pointer group">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={category === c.name}
+                                                        onChange={() => setCategory(c.name)}
+                                                        className="w-4 h-4 border-gray-300 rounded-sm focus:ring-0 checked:bg-black" />
                                                     <span className="text-[14px] text-gray-600 group-hover:text-black uppercase">{c.name}</span>
                                                 </label>
                                             ))}
@@ -174,14 +174,14 @@ const Products: React.FC = () => {
                                     {/* Price Range */}
                                     <AccordionItem title="Price Range">
                                         <div className="pt-4 px-1">
-                                            <input 
-                                            type="range"
-                                            name="maxPrice" 
-                                            min={0}
-                                            max={12000}
-                                            value={minPrice}
-                                            onChange={(e) => setMinPrice(Number(e.target.value))}
-                                            className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black" 
+                                            <input
+                                                type="range"
+                                                name="maxPrice"
+                                                min={0}
+                                                max={12000}
+                                                value={minPrice}
+                                                onChange={(e) => setMinPrice(Number(e.target.value))}
+                                                className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-black"
                                             />
                                             <div className="flex justify-between mt-2 text-xs text-secondary font-medium">
                                                 <span>{minPrice}</span>

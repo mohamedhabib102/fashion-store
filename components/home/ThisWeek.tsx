@@ -80,7 +80,9 @@ const ThisWeek: React.FC = () => {
                             <SwiperSlide key={p.id}>
                                 <div
                                     className="group relative">
-                                    <div className="relative lg:aspect-4/5 aspect-6/4 w-full overflow-hidden mb-3 bg-emerald-600/10">
+                                    <Link 
+                                    href={`/products/${p.id}`}
+                                    className="block relative lg:aspect-4/5 aspect-6/4 w-full overflow-hidden mb-3 bg-emerald-600/10">
                                         <Image
                                             src={p.image[0]}
                                             fill
@@ -88,7 +90,7 @@ const ThisWeek: React.FC = () => {
                                             alt={p.title}
                                             className='p-4 mx-auto object-contain transition-transform duration-500 group-hover:scale-105'
                                         />
-                                    </div>
+                                    </Link>
                                     <FaPlus
                                         onClick={() => handelCart(p, "add")}
                                         size={35}
