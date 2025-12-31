@@ -5,6 +5,7 @@ import { HiOutlineArrowRight, HiChevronLeft, HiChevronRight } from "react-icons/
 import { useEffect, useState } from "react";
 import axiosInstance from "@/api/axios";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 
 
@@ -12,17 +13,21 @@ const NewCollection: React.FC = () => {
     const year = new Date().getFullYear();
     const [products, setProducts] = useState<Product[]>([]);
 
-    const getAllProducts = async() => {
-        const req = await axiosInstance.get("api/products");
-        const data = req.data;
-        setProducts(data);
+    const getAllProducts = async () => {
+        try {
+            const req = await axiosInstance.get("/api/products");
+            const data = req.data;
+            setProducts(data);
+        } catch (error) {
+            console.error("Error in NewCollection:", error);
+        }
     }
 
     useEffect(() => {
         getAllProducts();
     }, [])
 
-    if (products.length === 0){
+    if (products.length === 0) {
         return <section className="py-8">
             <p>No products found</p>
         </section>
@@ -35,7 +40,13 @@ const NewCollection: React.FC = () => {
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 items-start">
 
                 {/* Left Side: Content and controls */}
-                <div className="w-full lg:w-[40%] flex flex-col justify-between self-stretch py-4">
+                <motion.div
+                    initial={{ opacity: 0, x: -50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full lg:w-[40%] flex flex-col justify-between self-stretch py-4"
+                >
                     <div>
                         <h1 className="lg:text-7xl text-5xl font-bold uppercase leading-[0.9] tracking-tighter text-[#1a1a1a] mb-6">
                             New <br /> Collection
@@ -61,16 +72,22 @@ const NewCollection: React.FC = () => {
                             </button>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Right Side: Slider */}
-                <div className="w-full lg:w-[60%]">
+                <motion.div
+                    initial={{ opacity: 0, x: 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8 }}
+                    className="w-full lg:w-[60%]"
+                >
                     <Slider
                         products={productCount}
                         nextEl="slider-next"
                         prevEl="slider-prev"
                     />
-                </div>
+                </motion.div>
 
             </div>
         </section>

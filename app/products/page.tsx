@@ -7,6 +7,7 @@ import ProductCard from "@/components/products/ProductCard";
 import { Product } from "@/lib/db";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const categories = [
     { id: 1, name: "all" },
@@ -38,10 +39,13 @@ const Products: React.FC = () => {
     const [minPrice, setMinPrice] = useState<number>(0);
     const cat = category ? category : "all";
     const getProducts = async () => {
-        const res = await axiosInstance.get(`api/products?category=${cat}`);
-        const data = await res.data;
-        console.log(data);
-        setProducts(data);
+        try {
+            const res = await axiosInstance.get(`/api/products?category=${cat}`);
+            const data = await res.data;
+            setProducts(data);
+        } catch (error) {
+            console.error("Error fetching products:", error);
+        }
     }
 
     useEffect(() => {
@@ -79,7 +83,12 @@ const Products: React.FC = () => {
             <CustomContainer>
                 <div className="flex flex-col lg:flex-row gap-10">
                     {/* Sidebar Filters */}
-                    <div className="lg:w-[280px] shrink-0">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        className="lg:w-[280px] shrink-0"
+                    >
                         <div className="sticky top-24 space-y-8">
                             <div>
                                 <h2 className="text-2xl font-bold uppercase tracking-tight mb-8">Filters</h2>
@@ -91,6 +100,8 @@ const Products: React.FC = () => {
                                         setShowOutOfStock(false)
                                         setCategory("all")
                                         setColor("")
+                                        setMinPrice(0)
+                                        setMaxPrice(12000)
                                     }}
                                     className="block text-sm font-bold uppercase mb-4 tracking-wider cursor-pointer">Reset Filters</span>
 
@@ -192,10 +203,15 @@ const Products: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Main Content */}
-                    <div className="flex-1">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="flex-1"
+                    >
                         {/* Header Section */}
                         <div className="mb-10">
                             <nav className="text-[12px] font-medium text-gray-400 uppercase mb-4 tracking-widest">
@@ -224,18 +240,32 @@ const Products: React.FC = () => {
                         </div>
 
                         {/* Product Grid */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
-                            {filterProducts.length > 0 ? (
-                                filterProducts.map((product) => (
-                                    <ProductCard key={product.id} product={product} />
-                                ))
-                            ) : (
-                                <div className="col-span-full py-20 text-center text-gray-400 font-medium">
-                                    Loading amazing products...
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                        <motion.div
+                            layout
+                            className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12"
+                        >
+                            <AnimatePresence mode="popLayout">
+                                {filterProducts.length > 0 ? (
+                                    filterProducts.map((product) => (
+                                        <motion.div
+                                            layout
+                                            key={product.id}
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            exit={{ opacity: 0, scale: 0.9 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <ProductCard product={product} />
+                                        </motion.div>
+                                    ))
+                                ) : (
+                                    <div className="col-span-full py-20 text-center text-gray-400 font-medium">
+                                        Loading amazing products...
+                                    </div>
+                                )}
+                            </AnimatePresence>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </CustomContainer>
         </section>

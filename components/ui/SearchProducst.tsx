@@ -13,7 +13,7 @@ const SearchProducts: React.FC<{ found: boolean, size?: string }> = ({ found, si
 
     const getProducts = async () => {
         try {
-            const req = await axiosInstance.get("api/products")
+            const req = await axiosInstance.get("/api/products")
             setProducts(req.data)
         } catch (error) {
             console.log(error)
@@ -48,7 +48,7 @@ const SearchProducts: React.FC<{ found: boolean, size?: string }> = ({ found, si
                         {filteredProducts.length > 0 ? (
                             filteredProducts.map((product) => (
                                 <li key={product.id}>
-                                    <Link href={`/product/${product.id}`} className="text-gray-700 capitalize
+                                    <Link href={`/products/${product.id}`} className="text-gray-700 capitalize
                                        font-medium py-3 px-5 block border-b border-gray-50 transition hover:text-black
                                        hover:bg-gray-50">{product.title}</Link>
                                 </li>

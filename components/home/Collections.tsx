@@ -8,6 +8,7 @@ import { FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { handelCart } from "@/api/api";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 
 
 const Collections: React.FC = () => {
@@ -20,10 +21,15 @@ const Collections: React.FC = () => {
     const cat = category ? category : "all";
     const getProducts = async () => {
         setLoading(true);
-        const res = await axiosInstance.get(`api/products?category=${cat}`);
-        const data = await res.data;
-        setProducts(data);
-        setLoading(false);
+        try {
+            const res = await axiosInstance.get(`/api/products?category=${cat}`);
+            const data = await res.data;
+            setProducts(data);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     const getCategories = async () => {
@@ -73,41 +79,51 @@ const Collections: React.FC = () => {
                             >{`(${cat})`}</li>
                         ))}
                     </ul>
-                    <div className="mt-8 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 lg:gap-6 gap-4">
-                        {visibleProducts.map((p) => (
-                            <div
-                                key={p.id}
-                            >
-                                <div className="group relative">
-                                    <Link
-                                        href={`/products/${p.id}`}
-                                        className="block relative lg:aspect-4/5 aspect-2/2 w-full z-30 overflow-hidden mb-3 bg-[#e5e4e4]">
-                                        <Image
-                                            src={p.image[0]}
-                                            width={500}
-                                            height={500}
-                                            title={p.title}
-                                            alt={p.title}
-                                            className='lg:h-[400px] h-full p-4 mx-auto object-contain transition-transform duration-500 group-hover:scale-105'
+                    <motion.div
+                        layout
+                        className="mt-8 grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 lg:gap-6 gap-4"
+                    >
+                        <AnimatePresence mode="popLayout">
+                            {visibleProducts.map((p) => (
+                                <motion.div
+                                    key={p.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{ duration: 0.4 }}
+                                >
+                                    <div className="group relative">
+                                        <Link
+                                            href={`/products/${p.id}`}
+                                            className="block relative lg:aspect-4/5 aspect-2/2 w-full z-30 overflow-hidden mb-3 bg-[#e5e4e4]">
+                                            <Image
+                                                src={p.image[0]}
+                                                width={500}
+                                                height={500}
+                                                title={p.title}
+                                                alt={p.title}
+                                                className='lg:h-[400px] h-full p-4 mx-auto object-contain transition-transform duration-500 group-hover:scale-105'
+                                            />
+                                        </Link>
+                                        <FaPlus
+                                            onClick={() => handelCart(p, "add")}
+                                            size={35}
+                                            className="cursor-pointer absolute bottom-10 left-1/2 -translate-x-1/2 text-white bg-main-color rounded-full p-2
+                                            transition duration-300 scale-95 hover:scale-105 z-40"
                                         />
-                                    </Link>
-                                    <FaPlus
-                                        onClick={() => handelCart(p, "add")}
-                                        size={35}
-                                        className="cursor-pointer absolute bottom-10 left-1/2 -translate-x-1/2 text-white bg-main-color rounded-full p-2
-                                         transition duration-300 scale-95 hover:scale-105 z-40"
-                                    />
-                                    <div className="text-left flex justify-between items-end">
-                                        <div>
-                                            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">{p.type}</p>
-                                            <h4 className="text-sm font-bold uppercase tracking-tight text-[#1a1a1a] mb-1">{p.title}</h4>
+                                        <div className="text-left flex justify-between items-end">
+                                            <div>
+                                                <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">{p.type}</p>
+                                                <h4 className="text-sm font-bold uppercase tracking-tight text-[#1a1a1a] mb-1">{p.title}</h4>
+                                            </div>
+                                            <p className="text-sm font-semibold text-main-color">${p.price}</p>
                                         </div>
-                                        <p className="text-sm font-semibold text-main-color">${p.price}</p>
                                     </div>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
                     <button
                         onClick={() => setShowAll(!showAll)}
                         className="cursor-pointer mt-6 text-[#262626a4] text-center">

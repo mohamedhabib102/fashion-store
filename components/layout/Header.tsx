@@ -20,11 +20,20 @@ const Header: React.FC = () => {
     const [cart, setCart] = useState(0)
 
     useEffect(() => {
-        const cart = localStorage.getItem("cart")
-        if (cart) {
-            setCart(JSON.parse(cart).length)
-        }
-    }, [cart])
+        const updateCart = () => {
+            const cartData = localStorage.getItem("cart");
+            if (cartData) {
+                setCart(JSON.parse(cartData).length);
+            } else {
+                setCart(0);
+            }
+        };
+
+        updateCart(); // التحديث عند التحميل
+
+        window.addEventListener("cartUpdate", updateCart);
+        return () => window.removeEventListener("cartUpdate", updateCart);
+    }, []);
     return (
         <>
             <OverlayHelp toggle={toggle} setToggle={setToggle} />
@@ -49,22 +58,27 @@ const Header: React.FC = () => {
                                         className="text-main-color text-sm font-semibold"
                                     >New</Link>
                                 </li>
+                                <li>
+                                    <Link href="/contact"
+                                        className="text-main-color text-sm font-semibold"
+                                    >Contact</Link>
+                                </li>
                             </ul>
                         </div>
                         <Logo />
                         <div className="flex items-center md:gap-8 gap-2.5">
-                            <Link 
-                            href="/favo"
-                            className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full
+                            <Link
+                                href="/favo"
+                                className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full
                     md:flex hidden transition-colors duration-200">
                                 <IoIosHeartEmpty
                                     size={20}
                                     className="text-white -rotate-45"
                                 />
                             </Link>
-                            <Link 
-                            href="/checkout"
-                            className="text-main-color cursor-pointer flex items-center group relative">
+                            <Link
+                                href="/checkout"
+                                className="text-main-color cursor-pointer flex items-center group relative">
                                 <span className="bg-main-color group-hover:bg-main-hover py-3 px-6 rounded-[20px] text-white md:flex hidden transition-colors duration-200">Cart</span>
                                 <span className="-ml-1 text-main-color  border-4 border-[#333] p-2 rounded-full group-hover:border-main-hover transition-colors duration-200">
                                     <CgShoppingBag size={20} />

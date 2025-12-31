@@ -2,26 +2,69 @@ import axiosInstance from "@/api/axios";
 import CustomContainer from "@/components/ui/CustomContainer";
 import DetailsSection from "@/components/ui/DetailsSection";
 import ImagesDetailsProduct from "@/components/ui/ImagesDetailsProduct";
-import { Product } from "@/lib/db";
-import Image from "next/image";
-import { getProductDyId } from "@/api/api";
+
+
+import { Metadata } from "next";
 
 interface Props {
     params: Promise<{ id: string }>
 }
 
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+    const { id } = await params;
+    const product = await getProductById(id);
+
+    if (!product) {
+        return {
+            title: "Product Not Found",
+        };
+    }
+
+    return {
+        title: product.title,
+        description: product.description,
+        openGraph: {
+            title: product.title,
+            description: product.description,
+            images: [
+                {
+                    url: product.image[0],
+                    alt: product.title,
+                },
+            ],
+        },
+        twitter: {
+            card: "summary_large_image",
+            title: product.title,
+            description: product.description,
+            images: [product.image[0]],
+        },
+    };
+}
+
 
 const getProductById = async (id: string) => {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/products/${id}`, {
-        cache: 'no-store' // لضمان جلب بيانات فريش دائماً
-    });
+    try {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+            ? process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '')
+            : 'http://localhost:3000';
 
-    if (!res.ok) return null;
+        console.log(`Fetching product ${id} from: ${baseUrl}/api/products/${id}`);
 
-    const data = await res.json();
-    console.log("Product from API:", data);
-    return data;
+        const res = await fetch(`${baseUrl}/api/products/${id}`, {
+            cache: 'no-store'
+        });
+
+        if (!res.ok) {
+            console.error(`API Error: ${res.status}`);
+            return null;
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.error("Fetch error in ProductDetails:", error);
+        return null;
+    }
 }
 
 

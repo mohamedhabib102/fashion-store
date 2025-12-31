@@ -28,8 +28,9 @@ export const handelCart = async (product: Product, action: "add" | "remove") => 
 
     if (!cart) {
         await localStorage.setItem("cart", JSON.stringify([product]))
+        window.dispatchEvent(new Event("cartUpdate"));
         toast.success("Product added to cart", {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 1000,
         });
     } else {
@@ -38,22 +39,24 @@ export const handelCart = async (product: Product, action: "add" | "remove") => 
             const filterCart = cartItems.find((p: Product) => p.id === product.id)
             if (filterCart) {
                 toast.error("Product already in cart", {
-                    position: "top-right",
+                    position: "bottom-right",
                     autoClose: 1000,
                 });
                 return
             }
             await localStorage.setItem("cart", JSON.stringify([...cartItems, product]))
+            window.dispatchEvent(new Event("cartUpdate"));
             toast.success("Product added to cart", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 1000,
             });
         } else {
             await localStorage.setItem("cart",
                 JSON.stringify(cartItems.filter((p: Product) => p.id !== product.id))
             )
+            window.dispatchEvent(new Event("cartUpdate"));
             toast.success("Product removed from cart", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 1000,
             });
         }
@@ -77,6 +80,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
 
     if (!cart) {
         await localStorage.setItem("Favo", JSON.stringify([product]))
+        window.dispatchEvent(new Event("favoUpdate"));
         toast.success("Product added to Favourite", {
             position: "top-right",
             autoClose: 1000,
@@ -93,6 +97,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
                 return
             }
             await localStorage.setItem("Favo", JSON.stringify([...favoItems, product]))
+            window.dispatchEvent(new Event("favoUpdate"));
             toast.success("Product added to Favourite", {
                 position: "top-right",
                 autoClose: 1000,
@@ -101,6 +106,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
             await localStorage.setItem("Favo",
                 JSON.stringify(favoItems.filter((p: Product) => p.id !== product.id))
             )
+            window.dispatchEvent(new Event("favoUpdate"));
             toast.success("Product removed from Favourite", {
                 position: "top-right",
                 autoClose: 1000,
