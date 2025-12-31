@@ -82,7 +82,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
         await localStorage.setItem("Favo", JSON.stringify([product]))
         window.dispatchEvent(new Event("favoUpdate"));
         toast.success("Product added to Favourite", {
-            position: "top-right",
+            position: "bottom-right",
             autoClose: 1000,
         });
     } else {
@@ -91,7 +91,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
             const filterFavo = favoItems.find((p: Product) => p.id === product.id)
             if (filterFavo) {
                 toast.error("Product already in Favourite", {
-                    position: "top-right",
+                    position: "bottom-right",
                     autoClose: 1000,
                 });
                 return
@@ -99,7 +99,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
             await localStorage.setItem("Favo", JSON.stringify([...favoItems, product]))
             window.dispatchEvent(new Event("favoUpdate"));
             toast.success("Product added to Favourite", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 1000,
             });
         } else {
@@ -108,7 +108,7 @@ export const handelFavo = async (product: Product, action: "add" | "remove") => 
             )
             window.dispatchEvent(new Event("favoUpdate"));
             toast.success("Product removed from Favourite", {
-                position: "top-right",
+                position: "bottom-right",
                 autoClose: 1000,
             });
         }
