@@ -2,6 +2,7 @@ import axiosInstance from "@/api/axios";
 import CustomContainer from "@/components/ui/CustomContainer";
 import DetailsSection from "@/components/ui/DetailsSection";
 import ImagesDetailsProduct from "@/components/ui/ImagesDetailsProduct";
+import { number } from "framer-motion";
 
 
 import { Metadata } from "next";
@@ -49,9 +50,8 @@ const getProductById = async (id: string) => {
             ? process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '')
             : 'http://localhost:3000';
 
-        console.log(`Fetching product ${id} from: ${baseUrl}/api/products/${id}`);
-
-        const res = await fetch(`${baseUrl}/api/products/${id}`, {
+        const ID = Number(id);
+        const res = await fetch(`${baseUrl}/api/products/${ID}`, {
             cache: 'no-store'
         });
 

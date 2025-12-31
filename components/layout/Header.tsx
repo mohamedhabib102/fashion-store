@@ -29,7 +29,7 @@ const Header: React.FC = () => {
             }
         };
 
-        updateCart(); // التحديث عند التحميل
+        updateCart();
 
         window.addEventListener("cartUpdate", updateCart);
         return () => window.removeEventListener("cartUpdate", updateCart);
