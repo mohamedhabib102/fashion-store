@@ -2,9 +2,7 @@ import axiosInstance from "@/api/axios";
 import CustomContainer from "@/components/ui/CustomContainer";
 import DetailsSection from "@/components/ui/DetailsSection";
 import ImagesDetailsProduct from "@/components/ui/ImagesDetailsProduct";
-import { number } from "framer-motion";
-
-
+import { getProductDyId } from "@/api/api";
 import { Metadata } from "next";
 
 interface Props {
@@ -13,7 +11,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { id } = await params;
-    const product = await getProductById(id);
+    const product = getProductDyId(Number(id));
 
     if (!product) {
         return {
@@ -44,33 +42,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 
-const getProductById = async (id: string) => {
-    try {
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-            ? process.env.NEXT_PUBLIC_BASE_URL.replace(/\/$/, '')
-            : 'http://localhost:3000';
-
-        const ID = Number(id);
-        const res = await fetch(`${baseUrl}/api/products/${ID}`, {
-            cache: 'no-store'
-        });
-
-        if (!res.ok) {
-            console.error(`API Error: ${res.status}`);
-            return null;
-        }
-
-        return await res.json();
-    } catch (error) {
-        console.error("Fetch error in ProductDetails:", error);
-        return null;
-    }
-}
-
-
 const ProductDetails: React.FC<Props> = async ({ params }) => {
     const { id } = await params;
-    const product = await getProductById(id);
+    const product = getProductDyId(Number(id));
 
     if (!product) {
         return (
