@@ -70,7 +70,6 @@ const ThisWeek: React.FC = () => {
                         observeParents={true}
                         observer={true}
                         breakpoints={{
-                            320: { slidesPerView: 2.5, spaceBetween: 10 },
                             640: { slidesPerView: 2, spaceBetween: 15 },
                             1024: { slidesPerView: 3, spaceBetween: 20 },
                             1280: { slidesPerView: 4, spaceBetween: 20 },
@@ -79,9 +78,9 @@ const ThisWeek: React.FC = () => {
                     >
                         {products.map((p) => (
                             <SwiperSlide key={p.id}>
-                                <div 
-                                className="group relative">
-                                    <div className="relative lg:aspect-4/5 aspect-2/2 w-full overflow-hidden mb-3 bg-emerald-600/10">
+                                <div
+                                    className="group relative">
+                                    <div className="relative lg:aspect-4/5 aspect-6/4 w-full overflow-hidden mb-3 bg-emerald-600/10">
                                         <Image
                                             src={p.image[0]}
                                             fill
@@ -91,11 +90,11 @@ const ThisWeek: React.FC = () => {
                                         />
                                     </div>
                                     <FaPlus
-                                            onClick={() => handelCart(p, "add")}
-                                            size={35}
-                                            className="cursor-pointer absolute bottom-10 left-1/2 -translate-x-1/2 text-white bg-main-color rounded-full p-2
+                                        onClick={() => handelCart(p, "add")}
+                                        size={35}
+                                        className="cursor-pointer absolute bottom-10 left-1/2 -translate-x-1/2 text-white bg-main-color rounded-full p-2
                                         transition duration-300 scale-95 hover:scale-105 z-20"
-                                        />
+                                    />
                                     <div className="text-left flex justify-between items-end">
                                         <div>
                                             <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">{p.type}</p>

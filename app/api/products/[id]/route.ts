@@ -4,11 +4,12 @@ import { NextResponse } from "next/server";
 
 
 export async function GET(
-  req: Request
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const url = new URL(req.url)
-  const id = Number(url.pathname.split("/").pop())
-  const product = getProductDyId(id)
+  const { id } = await params;
+  const productId = Number(id)
+  const product = getProductDyId(productId)
 
 
 

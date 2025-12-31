@@ -1,18 +1,16 @@
-import { NextResponse, NextRequest } from "next/server";
-import { getAllCategories, getAllProducts, getProductDyId } from "@/api/api";
+import { NextRequest, NextResponse } from "next/server";
+import { getUniqueCategories, getAllProducts } from "@/api/api";
 
 
+export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get('type');
 
-export async function GET() {
-    const allProducts = getAllProducts()
-    const request = NextRequest
-    return NextResponse.json(allProducts, {status: 200})
-}
-
-export async function GETBYID(id: number) {
-    if (!id) {
-        return NextResponse.json({error: "ID is required"}, {status: 404})
+    if (type === 'categories') {
+        const categories = getUniqueCategories();
+        return NextResponse.json(categories, { status: 200 });
     }
-    const product = getProductDyId(id)
-    return NextResponse.json(product, {status: 200})
+
+    const allProducts = getAllProducts();
+    return NextResponse.json(allProducts, { status: 200 });
 }
