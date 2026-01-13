@@ -8,9 +8,17 @@ import { IoIosHeartEmpty } from "react-icons/io";
 import { CgShoppingBag } from "react-icons/cg";
 import { FiUser } from "react-icons/fi";
 import OverlayHelp from "../ui/OverlayHelp";
+import { CiLogin } from "react-icons/ci";
+import { useSession } from "next-auth/react";
+import { User } from "next-auth";
 
 
 
+
+interface UserSite {
+    name: string;
+    email: string;
+}
 
 
 
@@ -18,6 +26,8 @@ import OverlayHelp from "../ui/OverlayHelp";
 const Header: React.FC = () => {
     const [toggle, setToggle] = useState(false)
     const [cart, setCart] = useState(0)
+    const { data: session } = useSession()
+    const user = session?.user ? (session.user as User) : null;
 
     useEffect(() => {
         const updateCart = () => {
@@ -34,6 +44,7 @@ const Header: React.FC = () => {
         window.addEventListener("cartUpdate", updateCart);
         return () => window.removeEventListener("cartUpdate", updateCart);
     }, []);
+
     return (
         <>
             <OverlayHelp toggle={toggle} setToggle={setToggle} />
@@ -86,9 +97,22 @@ const Header: React.FC = () => {
                                 <span className="absolute top-[-6px] right-[-8px] font-semibold bg-[#333] text-white rounded-full w-6 h-6 flex items-center justify-center
                                 text-sm group-hover:bg-main-hover">{cart}</span>
                             </Link>
-                            <button className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full transition-colors duration-200">
-                                <FiUser size={20} />
-                            </button>
+                            {(user) && (
+                                <Link href="/profile">
+                                    <button className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full transition-colors duration-200">
+                                        <FiUser size={20} />
+                                    </button>
+                                </Link>
+                            ) }
+                            
+                            {!user && (
+                                <Link href="/auth">
+                                    <button className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full transition-colors duration-200">
+                                        <FiUser size={20} />
+                                    </button>
+                                </Link>
+                            )}
+
                         </div>
 
                     </nav>

@@ -5,6 +5,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ProviderNextAuth from "@/utils/ProviderNextAuth";
 
 
 const inconsolata = Inconsolata({
@@ -74,10 +75,12 @@ export default function RootLayout({
       <body
         className={`${inconsolata.variable} antialiased`}
       >
-        <Header />
-        {children}
-        <ToastContainer />
-        <Footer />
+        <ProviderNextAuth>
+          <Header />
+          {children}
+          <ToastContainer />
+          <Footer />
+        </ProviderNextAuth>
       </body>
     </html>
   );
