@@ -64,6 +64,11 @@ const Login: React.FC = () => {
         setIsLoading(false)
     }
 
+    const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        await handleSubmit(formData);
+    }
 
 
     useEffect(() => {
@@ -80,7 +85,7 @@ const Login: React.FC = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            action={handleSubmit}
+            onSubmit={handleFormSubmit}
             className="lg:w-150 w-full max-w-md bg-white shadow-xl mx-auto py-10 px-8 rounded-2xl border border-gray-100"
         >
             <h2 className="text-3xl font-bold mb-8
