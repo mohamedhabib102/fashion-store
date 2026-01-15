@@ -5,7 +5,7 @@ import { Product } from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
 import { IoCloseOutline } from "react-icons/io5";
-import { handelFavo } from "@/api/api";
+import { handelFavo } from "@/actions/api";
 
 const FavoritesPage = () => {
     const [favoItems, setFavoItems] = useState<Product[]>([]);

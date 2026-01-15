@@ -1,5 +1,5 @@
 "use client"
-import axiosInstance from "@/api/axios";
+import axiosInstance from "@/utils/axios";
 import AccordionItem from "@/components/ui/Accordion";
 import CustomContainer from "@/components/ui/CustomContainer";
 import SearchProducts from "@/components/ui/SearchProducst";

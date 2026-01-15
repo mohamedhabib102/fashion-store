@@ -2,11 +2,11 @@
 import { useEffect, useState } from "react";
 import CustomContainer from "../ui/CustomContainer";
 import { Product } from "@/lib/db";
-import axiosInstance from "@/api/axios";
+import axiosInstance from "@/utils/axios";
 import Image from "next/image";
 import { FaPlus } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
-import { handelCart } from "@/api/api";
+import { handelCart } from "@/actions/api";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 

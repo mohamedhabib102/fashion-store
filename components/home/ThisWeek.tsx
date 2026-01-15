@@ -10,8 +10,8 @@ import { useEffect, useState } from "react";
 import { Swiper as SwiperType } from "swiper";
 import { FaPlus } from "react-icons/fa6";
 import { Product } from "@/lib/db";
-import axiosInstance from "@/api/axios";
-import { handelCart } from "@/api/api";
+import axiosInstance from "@/utils/axios";
+import { handelCart } from "@/actions/api";
 import Link from "next/link";
 import { motion } from "framer-motion";
 

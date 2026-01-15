@@ -1,5 +1,5 @@
 "use client";
-import { handelCart, handelFavo } from "@/api/api";
+import { handelCart, handelFavo } from "@/actions/api";
 import { Product } from "@/lib/db";
 import { useState } from "react";
 import { IoIosHeartEmpty } from "react-icons/io";

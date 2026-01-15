@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUniqueCategories, getAllProducts, getAllCategories } from "@/api/api";
+import { getUniqueCategories, getAllProducts, getAllCategories } from "@/actions/api";
 
 
 export async function GET(req: NextRequest) {

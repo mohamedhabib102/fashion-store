@@ -4,7 +4,7 @@ import CustomContainer from "@/components/ui/CustomContainer";
 import { Product } from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
-import { handelCart, removeAllCart } from "@/api/api";
+import { handelCart, removeAllCart } from "@/actions/api";
 
 const CheckoutPage = () => {
     const [cartItems, setCartItems] = useState<Product[]>([]);

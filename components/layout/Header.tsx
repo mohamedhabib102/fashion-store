@@ -11,6 +11,8 @@ import OverlayHelp from "../ui/OverlayHelp";
 import { CiLogin } from "react-icons/ci";
 import { useSession } from "next-auth/react";
 import { User } from "next-auth";
+import { useAuth } from "@/utils/contextapi";
+import { RiProfileFill } from "react-icons/ri";
 
 
 
@@ -27,7 +29,13 @@ const Header: React.FC = () => {
     const [toggle, setToggle] = useState(false)
     const [cart, setCart] = useState(0)
     const { data: session } = useSession()
-    const user = session?.user ? (session.user as User) : null;
+    const userGoogle = session?.user ? (session.user as User) : null;
+    const {user} = useAuth()
+ const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
     useEffect(() => {
         const updateCart = () => {
@@ -94,24 +102,26 @@ const Header: React.FC = () => {
                                 <span className="-ml-1 text-main-color  border-4 border-[#333] p-2 rounded-full group-hover:border-main-hover transition-colors duration-200">
                                     <CgShoppingBag size={20} />
                                 </span>
-                                <span className="absolute top-[-6px] right-[-8px] font-semibold bg-[#333] text-white rounded-full w-6 h-6 flex items-center justify-center
+                                <span className="absolute -top-1.5 -right-2 font-semibold bg-[#333] text-white rounded-full w-6 h-6 flex items-center justify-center
                                 text-sm group-hover:bg-main-hover">{cart}</span>
                             </Link>
-                            {(user) && (
+                            {mounted && (userGoogle || user?.id) && (
                                 <Link href="/profile">
                                     <button className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full transition-colors duration-200">
-                                        <FiUser size={20} />
+                                        <RiProfileFill size={20} />
                                     </button>
                                 </Link>
                             ) }
                             
-                            {!user && (
-                                <Link href="/auth">
+                         
+                            {mounted && (!userGoogle && !user?.id) && (
+                                <Link href="/auth/register">
                                     <button className="cursor-pointer text-white bg-main-color hover:bg-main-hover p-3 rounded-full transition-colors duration-200">
                                         <FiUser size={20} />
                                     </button>
                                 </Link>
                             )}
+                           
 
                         </div>
 

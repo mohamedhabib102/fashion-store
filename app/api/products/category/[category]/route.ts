@@ -1,4 +1,4 @@
-import { getAllCategories } from "@/api/api";
+import { getAllCategories } from "@/actions/api";
 import { NextResponse } from "next/server";
 
 

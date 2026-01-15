@@ -1,4 +1,4 @@
-import { getProductDyId } from "@/api/api";
+import { getProductDyId } from "@/actions/api";
 import { NextResponse } from "next/server";
 
 

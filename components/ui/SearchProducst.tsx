@@ -1,5 +1,5 @@
 "use client"
-import axiosInstance from "@/api/axios";
+import axiosInstance from "@/utils/axios";
 import { Product } from "@/lib/db";
 import Link from "next/link";
 import { useEffect, useState } from "react";

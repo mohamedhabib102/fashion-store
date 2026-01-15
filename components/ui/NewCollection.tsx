@@ -3,7 +3,7 @@ import { Product } from "@/lib/db";
 import Slider from "./Slider";
 import { HiOutlineArrowRight, HiChevronLeft, HiChevronRight } from "react-icons/hi2";
 import { useEffect, useState } from "react";
-import axiosInstance from "@/api/axios";
+import axiosInstance from "@/utils/axios";
 import Link from "next/link";
 import { motion } from "framer-motion";
 

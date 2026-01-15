@@ -1,8 +1,8 @@
-import axiosInstance from "@/api/axios";
+import axiosInstance from "@/utils/axios";
 import CustomContainer from "@/components/ui/CustomContainer";
 import DetailsSection from "@/components/ui/DetailsSection";
 import ImagesDetailsProduct from "@/components/ui/ImagesDetailsProduct";
-import { getProductDyId } from "@/api/api";
+import { getProductDyId } from "@/actions/api";
 import { Metadata } from "next";
 
 interface Props {
