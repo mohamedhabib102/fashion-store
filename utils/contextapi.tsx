@@ -7,27 +7,28 @@ type User = {
     id: string;
     name: string;
     email: string;
+    image?: string;
     createdAt: string;
     // token?:string
 }
 
 type authContextType = {
-    user: User|null;
-    login: (user:User) => void;
+    user: User | null;
+    login: (user: User) => void;
     logout: (url?: string) => void
 }
 
 
 const Context = createContext<authContextType>({
     user: null,
-    login: () => {},
-    logout: () => {}
+    login: () => { },
+    logout: () => { }
 })
 
 
-export function AuthProvider({children}:{children: React.ReactNode}){
+export function AuthProvider({ children }: { children: React.ReactNode }) {
 
-    const getDataUser = ():User | null => {
+    const getDataUser = (): User | null => {
         const user = Cookie.get("user")
         if (!user) return null;
         try {
@@ -37,10 +38,10 @@ export function AuthProvider({children}:{children: React.ReactNode}){
             return null;
         }
     }
-    const [user, setUser] = useState<User|null>(getDataUser())
+    const [user, setUser] = useState<User | null>(getDataUser())
 
-    
-    const login = (user:User) => {
+
+    const login = (user: User) => {
         setUser(user);
         Cookie.set("user", JSON.stringify(user), {
             expires: 30,
@@ -48,19 +49,19 @@ export function AuthProvider({children}:{children: React.ReactNode}){
             secure: false,
         })
     }
-    
-    const logout = (url?:string) => {
+
+    const logout = (url?: string) => {
         setUser(null);
         Cookie.remove("user");
-          if (url) window.location.href = url;
+        if (url) window.location.href = url;
     }
 
 
-     const values = {
-         user,
-         login,
-         logout
-     }
+    const values = {
+        user,
+        login,
+        logout
+    }
 
     return (
         <Context.Provider value={values}>
@@ -70,8 +71,8 @@ export function AuthProvider({children}:{children: React.ReactNode}){
 }
 
 
-export const ContextProviderWapper = ({children}:{children: React.ReactNode}) => {
-   return <AuthProvider>
+export const ContextProviderWapper = ({ children }: { children: React.ReactNode }) => {
+    return <AuthProvider>
         {children}
     </AuthProvider>
 }
